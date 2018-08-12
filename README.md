@@ -1,0 +1,2 @@
+# Flask-gzipper
+gzip compress
