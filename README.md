@@ -1,2 +1,2 @@
-# Flask-gzipper
-gzip compress
+# Flask-Zipper
+
