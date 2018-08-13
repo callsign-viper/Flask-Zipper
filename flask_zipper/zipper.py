@@ -67,3 +67,21 @@ class Zipper(object):
         @app.errorhandler(DeflateCompressionError)
         def handle_deflate_compression_error(e):
             pass
+
+    def _encoder_base(self, encode: str, compressor: function, error_class: Exception, request, response):
+        if encode not in request.headers.get('Accept-Encoding', '') \
+                or not 200 <= response.status_code < 300 \
+                or 'Content-Encoding' in response.headers:
+            # 1. Accept-Encoding에 encode가 포함되어 있지 않거나
+            # 2. 200번대의 status code로 response하지 않거나
+            # 3. response header에 이미 Content-Encoding이 명시되어 있는 경우
+            return response
+
+        try:
+            compressor(response)
+
+        except Exception as e:
+            raise error_class(e)
+
+        finally:
+            return response
