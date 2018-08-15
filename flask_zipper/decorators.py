@@ -36,7 +36,7 @@ encode_deflate = _get_decorator({
 })
 
 
-encode_gzipped = _get_decorator({
+encode_gzip = _get_decorator({
     'accept_encoding_string': 'gzip',
     'compressor': encode_response_with_gzip,
     'error_class': GzipCompressionError

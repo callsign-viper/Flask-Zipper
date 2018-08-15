@@ -1,4 +1,2 @@
 from .zipper import Zipper
-from .gzip import encode_gzipped
-from .defalte import encode_deflate
-from .brotli import encode_brotli
+from .decorators import encode_brotli, encode_deflate, encode_gzip
