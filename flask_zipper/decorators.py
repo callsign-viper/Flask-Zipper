@@ -17,7 +17,7 @@ def encode_brotli(fn):
         @after_this_request
         def zipper(response):
             return get_zipper().encode_response(
-                encode='br',
+                accept_encoding_string='br',
                 compressor=encode_response_with_brotli,
                 error_class=BrotliCompressionError,
                 response=response
@@ -37,7 +37,7 @@ def encode_deflate(fn):
         @after_this_request
         def zipper(response):
             return get_zipper().encode_response(
-                encode='deflate',
+                accept_encoding_string='deflate',
                 compressor=encode_response_with_deflate,
                 error_class=DeflateCompressionError,
                 response=response
@@ -57,7 +57,7 @@ def encode_gzipped(fn):
         @after_this_request
         def zipper(response):
             return get_zipper().encode_response(
-                encode='gzip',
+                accept_encoding_string='gzip',
                 compressor=encode_response_with_gzip,
                 error_class=GzipCompressionError,
                 response=response
