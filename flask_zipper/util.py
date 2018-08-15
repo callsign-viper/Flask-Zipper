@@ -1,6 +1,7 @@
 from flask import current_app
 
-def _get_zipper():
+
+def get_zipper():
     try:
         return current_app.extensions['flask-zipper']
     except KeyError:  # pragma: no cover

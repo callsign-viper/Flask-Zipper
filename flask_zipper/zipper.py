@@ -20,6 +20,7 @@ class Zipper(object):
         :param app: A flask application
         """
         self.app = app
+
         if app is not None:
             self.init_app(app)
 
@@ -68,7 +69,7 @@ class Zipper(object):
         def handle_deflate_compression_error(e):
             pass
 
-    def _encoder_base(self, encode: str, compressor: function, error_class: Exception, request, response):
+    def encode_response(self, encode: str, compressor, error_class: Exception, request, response):
         if encode not in request.headers.get('Accept-Encoding', '') \
                 or not 200 <= response.status_code < 300 \
                 or 'Content-Encoding' in response.headers:
@@ -79,6 +80,11 @@ class Zipper(object):
 
         try:
             compressor(response)
+            response.headers.update({
+                'Content-Encoding': encode,
+                'Vary': 'Accept-Encoding',
+                'Content-Length': len(response.data)
+            })
 
         except Exception as e:
             raise error_class(e)
