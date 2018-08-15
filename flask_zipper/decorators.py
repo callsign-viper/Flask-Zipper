@@ -20,7 +20,6 @@ def encode_brotli(fn):
                 encode='br',
                 compressor=encode_response_with_brotli,
                 error_class=BrotliCompressionError,
-                request=request,
                 response=response
             )
 
@@ -41,7 +40,6 @@ def encode_deflate(fn):
                 encode='deflate',
                 compressor=encode_response_with_deflate,
                 error_class=DeflateCompressionError,
-                request=request,
                 response=response
             )
 
@@ -62,7 +60,6 @@ def encode_gzipped(fn):
                 encode='gzip',
                 compressor=encode_response_with_gzip,
                 error_class=GzipCompressionError,
-                request=request,
                 response=response
             )
 

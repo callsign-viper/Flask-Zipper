@@ -1,4 +1,5 @@
 from brotli import MODE_GENERIC
+from flask import request
 
 from .exceptions import *
 
@@ -69,7 +70,7 @@ class Zipper(object):
         def handle_deflate_compression_error(e):
             pass
 
-    def encode_response(self, encode: str, compressor, error_class: Exception, request, response):
+    def encode_response(self, encode: str, compressor, error_class: Exception, response):
         if encode not in request.headers.get('Accept-Encoding', '') \
                 or not 200 <= response.status_code < 300 \
                 or 'Content-Encoding' in response.headers:
