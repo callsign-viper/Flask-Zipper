@@ -13,6 +13,14 @@ def decode_response_data_with_brotli(response):
     return brotli.decompress(response.data).decode()
 
 
+def decode_response_data_with_deflate(response):
+    return zlib.decompress(response.data).decode()
+
+
+def decode_response_data_with_gzip(response):
+    return gzip.decompress(response.data).decode()
+
+
 RESPONSE_MESSAGE = 'hello'
 
 
@@ -57,7 +65,16 @@ def _test_content_encoding_value_missing(client):
     assert resp.data.decode() == RESPONSE_MESSAGE
 
 
-def _test_all(target_func, content_encoding_string, decoder_function):
+CONTENT_ENCODING_STRING_DECORATOR_DECODER_MAPPING = {
+    'br': (encode_brotli, decode_response_data_with_brotli),
+    'deflate': (encode_deflate, decode_response_data_with_deflate),
+    'gzip': (encode_gzip, decode_response_data_with_gzip)
+}
+
+
+def _test_all(content_encoding_string):
+    target_func, decoder_function = CONTENT_ENCODING_STRING_DECORATOR_DECODER_MAPPING[content_encoding_string]
+
     client = get_test_client_of_decorated_view_function_registered_flask_app(target_func)
 
     _test_encoded_response(client, content_encoding_string, decoder_function)
@@ -66,4 +83,12 @@ def _test_all(target_func, content_encoding_string, decoder_function):
 
 
 def test_brotli():
-    _test_all(encode_brotli, 'br', decode_response_data_with_brotli)
+    _test_all('br')
+
+
+def test_deflate():
+    _test_all('deflate')
+
+
+def test_gzip():
+    _test_all('gzip')
