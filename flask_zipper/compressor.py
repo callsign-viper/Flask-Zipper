@@ -14,7 +14,7 @@ def encode_response_data_with_brotli(response):
     response.data = brotli.compress(
         string=response.data,
         mode=current_app.config['BROTLI_MODE'],
-        quality=current_app.config['BROTLI_COMPRESS_LEVEL'],
+        quality=current_app.config['BROTLI_QUALITY_LEVEL'],
         lgwin=current_app.config['BROTLI_SLIDING_WINDOW_SIZE'],
         lgblock=current_app.config['BROTLI_MAX_INPUT_BLOCK_SIZE']
     )
