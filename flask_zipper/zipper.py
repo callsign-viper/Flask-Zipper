@@ -73,28 +73,30 @@ class Zipper(object):
         def handle_deflate_compression_error(e):
             pass
 
-    def encode_response(self, accept_encoding_string: str, compress_function, error_class: Exception, response):
+    def encode_response(self, content_encoding_string: str, compress_function, error_class: Exception, response):
         """
         A encoder to compress response with delivered compressor and other arguments
 
-        :param accept_encoding_string: Content-Encoding argument like `br`, 'deflate', `gzip`
-        :param compressor: Compressor in :mod:`flask_zipper.compressor`
+        :param content_encoding_string: Content-Encoding argument like `br`, 'deflate', `gzip`
+        :param compress_function: Compressor in :mod:`flask_zipper.compressor`
         :param error_class: Exception in :mod:`flask_zipper.exceptions`
         :param response: Response object to compress
         :return: Compressed response
         """
-        if accept_encoding_string.upper() not in request.headers.get('Accept-Encoding', '').upper() \
+        if content_encoding_string.upper() not in request.headers.get('Accept-Encoding', '').upper() \
+                or 'Content-Encoding' in response.headers \
                 or not 200 <= response.status_code < 300 \
-                or 'Content-Encoding' in response.headers:
+                or response.direct_passthrough:
             # 1. Accept-Encoding에 encode가 포함되어 있지 않거나
             # 2. 200번대의 status code로 response하지 않거나
-            # 3. response header에 이미 Content-Encoding이 명시되어 있는 경우
+            # 3. response header에 이미 Content-Encoding이 명시되어 있거나
+            # 4. direct passthrough거나
             return response
 
         try:
             compress_function(response)
             response.headers.extend({
-                'Content-Encoding': accept_encoding_string,
+                'Content-Encoding': content_encoding_string,
                 'Vary': 'Accept-Encoding',
                 'Content-Length': len(response.data)
             })

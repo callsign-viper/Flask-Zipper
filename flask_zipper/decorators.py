@@ -29,21 +29,21 @@ def _get_decorator(kwargs_dict):
 
 
 encode_brotli = _get_decorator({
-    'accept_encoding_string': 'br',
+    'content_encoding_string': 'br',
     'compress_function': encode_response_data_with_brotli,
     'error_class': BrotliCompressionError
 })  #: brotli encoder decorator
 
 
 encode_deflate = _get_decorator({
-    'accept_encoding_string': 'deflate',
+    'content_encoding_string': 'deflate',
     'compress_function': encode_response_data_with_deflate,
     'error_class': DeflateCompressionError
 })  #: deflate encoder decorator
 
 
 encode_gzip = _get_decorator({
-    'accept_encoding_string': 'gzip',
+    'content_encoding_string': 'gzip',
     'compress_function': encode_response_data_with_gzip,
     'error_class': GzipCompressionError
 })  #: gzip encoder decorator
