@@ -24,20 +24,20 @@ def _get_decorator(kwargs_dict):
 
 encode_brotli = _get_decorator({
     'accept_encoding_string': 'br',
-    'compressor': encode_response_with_brotli,
+    'compress_function': encode_response_data_with_brotli,
     'error_class': BrotliCompressionError
 })
 
 
 encode_deflate = _get_decorator({
     'accept_encoding_string': 'deflate',
-    'compressor': encode_response_with_deflate,
+    'compress_function': encode_response_data_with_deflate,
     'error_class': DeflateCompressionError
 })
 
 
 encode_gzip = _get_decorator({
     'accept_encoding_string': 'gzip',
-    'compressor': encode_response_with_gzip,
+    'compress_function': encode_response_data_with_gzip,
     'error_class': GzipCompressionError
 })

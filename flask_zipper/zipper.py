@@ -70,7 +70,7 @@ class Zipper(object):
         def handle_deflate_compression_error(e):
             pass
 
-    def encode_response(self, accept_encoding_string: str, compressor, error_class: Exception, response):
+    def encode_response(self, accept_encoding_string: str, compress_function, error_class: Exception, response):
         if accept_encoding_string.upper() not in request.headers.get('Accept-Encoding', '').upper() \
                 or not 200 <= response.status_code < 300 \
                 or 'Content-Encoding' in response.headers:
@@ -80,8 +80,8 @@ class Zipper(object):
             return response
 
         try:
-            compressor(response)
             response.headers.update({
+            compress_function(response)
                 'Content-Encoding': accept_encoding_string,
                 'Vary': 'Accept-Encoding',
                 'Content-Length': len(response.data)

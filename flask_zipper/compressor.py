@@ -5,7 +5,7 @@ import brotli
 from flask import current_app
 
 
-def encode_response_with_brotli(response):
+def encode_response_data_with_brotli(response):
     response.data = brotli.compress(
         string=response.data,
         mode=current_app.config['BROTLI_MODE'],
@@ -15,14 +15,14 @@ def encode_response_with_brotli(response):
     )
 
 
-def encode_response_with_deflate(response):
+def encode_response_data_with_deflate(response):
     response.data = zlib.compress(
         response.data,
         current_app.config['DEFLATE_COMPRESS_LEVEL']
     )
 
 
-def encode_response_with_gzip(response):
+def encode_response_data_with_gzip(response):
     response.data = gzip.compress(
         data=response.data,
         compresslevel=current_app.config['GZIP_COMPRESS_LEVEL']
