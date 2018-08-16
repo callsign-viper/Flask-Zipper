@@ -80,8 +80,8 @@ class Zipper(object):
             return response
 
         try:
-            response.headers.update({
             compress_function(response)
+            response.headers.extend({
                 'Content-Encoding': accept_encoding_string,
                 'Vary': 'Accept-Encoding',
                 'Content-Length': len(response.data)
