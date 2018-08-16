@@ -58,6 +58,9 @@ class Zipper(object):
 
     @staticmethod
     def _set_default_errorhandler(app):
+        """
+        Sets the default error handler used by this extension
+        """
         @app.errorhandler(GzipCompressionError)
         def handle_gzip_compression_error(e):
             pass
@@ -71,6 +74,15 @@ class Zipper(object):
             pass
 
     def encode_response(self, accept_encoding_string: str, compressor, error_class: Exception, response):
+        """
+        A encoder to compress response with delivered compressor and other arguments
+
+        :param accept_encoding_string: Content-Encoding argument like `br`, 'deflate', `gzip`
+        :param compressor: Compressor in :mod:`flask_zipper.compressor`
+        :param error_class: Exception in :mod:`flask_zipper.exceptions`
+        :param response: Response object to compress
+        :return: Compressed response
+        """
         if accept_encoding_string.upper() not in request.headers.get('Accept-Encoding', '').upper() \
                 or not 200 <= response.status_code < 300 \
                 or 'Content-Encoding' in response.headers:

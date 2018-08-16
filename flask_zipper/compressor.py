@@ -6,6 +6,11 @@ from flask import current_app
 
 
 def encode_response_with_brotli(response):
+    """
+    A response compressor uses brotli algorithm
+
+    :param response: Flask response object
+    """
     response.data = brotli.compress(
         string=response.data,
         mode=current_app.config['BROTLI_MODE'],
@@ -16,6 +21,11 @@ def encode_response_with_brotli(response):
 
 
 def encode_response_with_deflate(response):
+    """
+    A response compressor uses zlib
+
+    :param response: Flask response object
+    """
     response.data = zlib.compress(
         response.data,
         current_app.config['DEFLATE_COMPRESS_LEVEL']
@@ -23,6 +33,11 @@ def encode_response_with_deflate(response):
 
 
 def encode_response_with_gzip(response):
+    """
+    A response compressor uses gzip
+
+    :param response: Flask response object
+    """
     response.data = gzip.compress(
         data=response.data,
         compresslevel=current_app.config['GZIP_COMPRESS_LEVEL']

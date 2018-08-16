@@ -8,6 +8,12 @@ from flask_zipper.util import get_zipper
 
 
 def _get_decorator(kwargs_dict):
+    """
+    A function to make specific decorator
+
+    :param kwargs_dict: encode_response argument
+    :return: specific decorator
+    """
     def decorator(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
@@ -26,18 +32,18 @@ encode_brotli = _get_decorator({
     'accept_encoding_string': 'br',
     'compressor': encode_response_with_brotli,
     'error_class': BrotliCompressionError
-})
+})  #: brotli encoder decorator
 
 
 encode_deflate = _get_decorator({
     'accept_encoding_string': 'deflate',
     'compressor': encode_response_with_deflate,
     'error_class': DeflateCompressionError
-})
+})  #: deflate encoder decorator
 
 
 encode_gzip = _get_decorator({
     'accept_encoding_string': 'gzip',
     'compressor': encode_response_with_gzip,
     'error_class': GzipCompressionError
-})
+})  #: gzip encoder decorator
