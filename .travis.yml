@@ -20,6 +20,7 @@ install:
   - pip3 install coveralls
 
 script: pytest --cov flask_zipper test.py
+after_success: coveralls
 
 notifications:
   email: false
