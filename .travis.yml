@@ -16,8 +16,10 @@ python:
 
 install: 
   - pip3 install -r requirements.txt
+  - pip3 install pytest-cov
+  - pip3 install coveralls
 
-script: pytest test.py
+script: pytest --cov flask_zipper test.py
 
 notifications:
   email: false
